@@ -1,4 +1,5 @@
 from dataclasses import fields
+from os import write
 from pyexpat import model
 from rest_framework import serializers
 from .models import LegoSet, MyUser, LegoSet, Comment
@@ -17,6 +18,23 @@ class MyUserProfileSerializer(serializers.ModelSerializer):
     
     def get_saves(self, obj):
         return LegoSetSerializer(obj.saves.all(), many=True).data
+
+class UserRegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+    class Meta:
+        model = MyUser
+        fields = ['username', 'email', 'first_name', 'last_name', 'password']
+
+    def create(self, validated_data):
+        user = MyUser(
+            username = validated_data['username'],
+            email = validated_data['email'],
+            first_name = validated_data['first_name'],
+            last_name = validated_data['last_name'],
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
 
 #comment serializer
 class CommentSerializer(serializers.ModelSerializer):
