@@ -11,7 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
-src/api
+src/api/rebrick.js
 
 # Editor directories and files
 .vscode/*
