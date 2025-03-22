@@ -52,3 +52,40 @@ export const get_auth = async () =>{
     const response = await api.get(`/authenticated/`)
     return response.data
 }
+
+export const toggleLike = async (set_num, name, pieces, img_url) => {
+    const response = await api.post('/toggle_like/', {set_num, name, pieces, img_url})
+    return response.data
+}
+
+export const toggleSave = async (set_num, name, pieces, img_url) => {
+    const response = await api.post('/toggle_save/', {set_num, name, pieces, img_url})
+    return response.data
+}
+
+
+export const get_username = async () =>{
+    const response = await api.get(`/get_username/`)
+    return response.data
+}
+
+export const get_legoset_comments = async (set_num) =>{
+    const response = await api.get(`get_set_comments/${set_num}`)
+    return response.data
+}
+
+// make comment endpoint
+export const post_legoset_comment = async (content, set_num, name, pieces, img_url) =>{
+    const response = await api.post(`post_legoset_comment/`, {content, set_num, name, pieces, img_url})
+    return response.data
+}
+
+export const logout = async () => {
+    const response = await api.post('/logout/')
+    response.data
+}
+
+export const update_user = async (values) => {
+    const response = await api.patch('/update_user/', values, { headers: {'Content-Type': 'multipart/form-data'}})
+    return response.data
+}

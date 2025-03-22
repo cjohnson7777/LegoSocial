@@ -7,6 +7,7 @@ import { AuthProvider } from './context'
 import PrivateRoute from './components/PrivateRoute'
 import Home from './pages/Home'
 import SetPage from './pages/SetPage'
+import Settings from './pages/Settings'
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path='/:username' element={<Layout><PrivateRoute><UserProfile /></PrivateRoute></Layout>} />
             <Route path='/home' element={<Layout><PrivateRoute><Home /></PrivateRoute></Layout>} />
             <Route path='/sets/:num_set' element={<Layout><PrivateRoute><SetPage /></PrivateRoute></Layout>} />
+            <Route path='/settings' element={<Layout><PrivateRoute><Settings /></PrivateRoute></Layout>} />
 
             <Route path='/login' element={<Layout><Login /></Layout>} />
             <Route path='/register' element={<Layout><Register /></Layout>} />

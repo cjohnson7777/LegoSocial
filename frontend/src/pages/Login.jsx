@@ -14,6 +14,10 @@ function Login(){
         auth_login(username, password)
     }
 
+    const getUsername = () => {
+        return username
+    }
+
     const handleNav = () => {
         navigate('/register')
     }

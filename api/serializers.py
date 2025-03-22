@@ -11,7 +11,7 @@ class MyUserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MyUser
-        fields = ['username', 'bio', 'profile_img', 'likes', 'saves']
+        fields = ['username', 'bio', 'profile_img', 'likes', 'saves', 'first_name']
 
     def get_likes(self, obj):
         return LegoSetSerializer(obj.likes.all(), many=True).data
@@ -36,20 +36,37 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-#comment serializer
-class CommentSerializer(serializers.ModelSerializer):
-    user = serializers.StringRelatedField()
-    
-    class Meta:
-        model = Comment
-        fields = ['user', 'content', 'created_at']
 
 #lego set serializer
 class LegoSetSerializer(serializers.ModelSerializer):
-    comments = CommentSerializer(many=True, read_only=True)
     liked_by = serializers.StringRelatedField(many=True)
     saved_by = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = LegoSet
-        fields = ['name', 'set_num', 'pieces', 'img_url', 'comments', 'liked_by', 'saved_by']
+        fields = ['name', 'set_num', 'pieces', 'img_url', 'liked_by', 'saved_by']
+
+#comment serializer
+class CommentSerializer(serializers.ModelSerializer):
+    username = serializers.SerializerMethodField()
+    formatted_date = serializers.SerializerMethodField()
+    lego_set = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = Comment
+        fields = ['id', 'username', 'lego_set', 'content', 'formatted_date']
+    
+    def get_username(self, obj):
+        return obj.user.username
+    
+    def get_lego_set(self, obj):
+        return obj.lego_set.name
+
+    def get_formatted_date(self, obj):
+        return obj.created_at.strftime("%b %d %y")
+    
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MyUser
+        fields = ['username', 'bio', 'email', 'profile_img', 'first_name', 'last_name']
+    
